@@ -1,4 +1,3 @@
-// src/lib/pdf.ts
 import * as pdfjsLib from "pdfjs-dist";
 
 // Set worker path for PDF.js

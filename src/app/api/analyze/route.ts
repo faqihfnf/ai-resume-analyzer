@@ -50,7 +50,7 @@ export async function POST(req: NextRequest) {
 
     // Buat prompt untuk AI
     const prompt = `
-Analyze this resume against the job requirements and provide feedback in JSON format. Please give feedback in Bahasa Indonesia.
+Analyze this resume against the job requirements and provide feedback in JSON format.
 
 Job Title: ${jobTitle}
 Job Level: ${jobLevel}

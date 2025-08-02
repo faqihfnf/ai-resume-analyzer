@@ -1,5 +1,5 @@
 interface ProgressCircleProps {
-  value: number; // 0-100
+  value: number;
 }
 
 export function ProgressCircle({ value }: ProgressCircleProps) {
