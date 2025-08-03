@@ -6,6 +6,7 @@ import { ArrowLeft, Sparkles } from "lucide-react";
 import { ResumeAnalysisFormData } from "@/lib/validations";
 import { ResumeForm } from "@/components/sections/ResumeForm";
 import { AnalysisResult } from "@/components/sections/AnalysisResult";
+import Image from "next/image";
 
 interface FeedbackData {
   score: number;
@@ -62,14 +63,21 @@ export default function HomePage() {
     <main className="min-h-screen bg-gradient-to-br from-indigo-200 via-violet-100 to-pink-200 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800">
       {/* Header */}
       <div className="container mx-auto px-4 py-8">
-        <div className="mb-8 text-center">
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-blue-100 px-4 py-2 text-sm font-medium text-blue-700 dark:bg-blue-900 dark:text-blue-300">
+        <div className="mt-20 mb-8 text-center">
+          {/* <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-blue-100 px-4 py-2 text-sm font-medium text-blue-700 dark:bg-blue-900 dark:text-blue-300">
             <Sparkles className="h-4 w-4" />
             AI-Powered Analysis
-          </div>
-          <h1 className="mb-4 bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-4xl font-bold text-transparent md:text-6xl">
+          </div> */}
+          {/* <h1 className="mb-4 bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-4xl font-bold text-transparent md:text-6xl">
             Resumeaizer
           </h1>
+          <Image
+            src="/logo.png"
+            alt="Resumeaizer Logo"
+            width={100}
+            height={100}
+            className="mx-auto"
+          /> */}
           <p className="mx-auto max-w-2xl text-lg leading-relaxed text-gray-600 md:text-xl dark:text-gray-400">
             Get instant AI-powered feedback on your resume and improve your
             chances of landing your dream job

@@ -1,4 +1,3 @@
-// src/app/api/analyze/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { extractTextFromPDF } from "@/lib/pdf";
 import { analyzeResumeWithAI } from "@/lib/ai";

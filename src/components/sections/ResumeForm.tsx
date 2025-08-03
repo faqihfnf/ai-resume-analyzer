@@ -14,7 +14,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Upload, FileText, Briefcase, User, AlertCircle } from "lucide-react";
+import {
+  Upload,
+  FileText,
+  Briefcase,
+  User,
+  AlertCircle,
+  Sparkles,
+} from "lucide-react";
 import {
   resumeAnalysisSchema,
   fileValidationSchema,
@@ -74,13 +81,19 @@ export function ResumeForm({ onSubmit, loading }: ResumeFormProps) {
   return (
     <Card className="mx-auto w-full max-w-2xl border-0 bg-gradient-to-br from-white to-slate-50 py-10 shadow-2xl dark:from-slate-900 dark:to-slate-800">
       <CardHeader className="space-y-2 pb-8 text-center">
-        {/* <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900">
-          <FileText className="h-8 w-8 text-blue-600 dark:text-blue-400" />
+        {/* <div className="mb-4 flex w-52 items-center justify-center gap-2 rounded-full bg-blue-100 px-4 py-2 text-sm font-medium text-blue-700 dark:bg-blue-900 dark:text-blue-300">
+          <Sparkles className="h-4 w-4" />
+          AI-Powered Analysis
         </div> */}
+        <div className="mx-auto mb-4 flex w-52 items-center justify-center rounded-full bg-indigo-100/20 px-4 py-2 text-sm font-medium text-indigo-700">
+          <Sparkles className="h-4 w-4" />
+          AI-Powered Analysis
+        </div>
+
         <CardTitle className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-4xl font-bold text-transparent">
-          Resume Analyzer
+          Upload and Analyze Resume
         </CardTitle>
-        <CardDescription className="text-lg text-slate-700 dark:text-slate-400">
+        <CardDescription className="text-md text-slate-600 dark:text-slate-400">
           Upload your resume and job details to get AI-powered feedback
         </CardDescription>
       </CardHeader>
