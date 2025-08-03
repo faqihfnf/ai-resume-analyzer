@@ -122,16 +122,6 @@ export default function HomePage() {
           </div>
         )}
       </div>
-
-      {/* Footer */}
-      <footer className="mt-16 border-t border-slate-200 bg-white/50 backdrop-blur-sm dark:border-slate-800 dark:bg-slate-900/50">
-        <div className="container mx-auto px-4 py-8 text-center">
-          <p className="text-slate-600 dark:text-slate-400">
-            &copy; {new Date().getFullYear()} Resume Analyzer. All rights
-            reserved.
-          </p>
-        </div>
-      </footer>
     </main>
   );
 }

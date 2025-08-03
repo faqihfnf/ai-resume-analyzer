@@ -23,6 +23,9 @@ import {
   Sparkles,
   FileType,
   Globe,
+  BookCheck,
+  Brain,
+  Loader2,
 } from "lucide-react";
 import {
   resumeAnalysisSchema,
@@ -122,7 +125,7 @@ export function ResumeForm({ onSubmit, loading }: ResumeFormProps) {
             </div>
             <Input
               id="jobTitle"
-              placeholder="e.g. Senior Frontend Developer"
+              placeholder="e.g. Human Resources"
               {...register("jobTitle")}
               className="h-12 border-2 transition-colors focus:border-blue-500"
               disabled={loading}
@@ -148,7 +151,7 @@ export function ResumeForm({ onSubmit, loading }: ResumeFormProps) {
             </div>
             <Input
               id="jobLevel"
-              placeholder="e.g. Senior Level, Mid Level, Entry Level"
+              placeholder="e.g. Supervisor"
               {...register("jobLevel")}
               className="h-12 border-2 transition-colors focus:border-green-500"
               disabled={loading}
@@ -216,7 +219,7 @@ export function ResumeForm({ onSubmit, loading }: ResumeFormProps) {
           {/* Language Selection */}
           <div className="space-y-2">
             <div className="flex items-center gap-1">
-              <Globe className="h-4 w-4 text-indigo-500" />
+              <BookCheck className="h-4 w-4 text-indigo-500" />
               <Label className="mt-1 flex items-center text-sm font-semibold">
                 Language for AI Feedback
               </Label>
@@ -230,19 +233,17 @@ export function ResumeForm({ onSubmit, loading }: ResumeFormProps) {
                   defaultValue={field.value}
                   disabled={loading}
                 >
-                  <SelectTrigger className="h-12 w-full border-2 focus:border-indigo-500">
+                  <SelectTrigger className="h-12 w-full border-2">
                     <SelectValue placeholder="Select feedback language" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="indonesia">
                       <div className="flex items-center gap-2">
-                        {/* <span className="text-lg">🇮🇩</span> */}
-                        <span>Bahasa Indonesia</span>
+                        <span>Indonesia</span>
                       </div>
                     </SelectItem>
                     <SelectItem value="english">
                       <div className="flex items-center gap-2">
-                        {/* <span className="text-lg">🇺🇸</span> */}
                         <span>English</span>
                       </div>
                     </SelectItem>
@@ -260,13 +261,15 @@ export function ResumeForm({ onSubmit, loading }: ResumeFormProps) {
 
           {/* File Upload */}
           <div className="space-y-2">
-            <Label
-              htmlFor="resume"
-              className="flex items-center gap-2 text-sm font-semibold"
-            >
+            <div className="flex items-center gap-1">
               <Upload className="h-4 w-4 text-lime-500" />
-              Upload Resume (PDF only)
-            </Label>
+              <Label
+                htmlFor="resume"
+                className="mt-1 flex items-center text-sm font-semibold"
+              >
+                Upload Resume (PDF)
+              </Label>
+            </div>
             <div className="relative">
               <Input
                 id="resume"
@@ -298,17 +301,23 @@ export function ResumeForm({ onSubmit, loading }: ResumeFormProps) {
             <Button
               type="submit"
               disabled={loading || !file}
-              className="h-12 flex-1 cursor-pointer bg-gradient-to-r from-blue-600 to-purple-600 font-semibold text-white shadow-lg transition-all duration-200 hover:from-blue-700 hover:to-purple-700 hover:shadow-xl"
+              className="text-md h-12 flex-1 cursor-pointer bg-gradient-to-r from-blue-600 to-purple-600 font-semibold text-white shadow-lg transition-all duration-200 hover:from-blue-700 hover:to-purple-700 hover:shadow-xl"
             >
               {loading ? (
                 <>
-                  <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
-                  AI Analyzing Resume...
+                  <div className="flex items-center gap-2">
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    <span className="mt-0.5 animate-pulse">
+                      AI Analyzing Resume ...
+                    </span>
+                  </div>
                 </>
               ) : (
                 <>
-                  <FileText className="mr-2 h-6 w-6" />
-                  Analyze Resume
+                  <div className="flex items-center gap-2">
+                    <Brain className="h-6 w-6" />
+                    <span className="mt-0.5">Analyze Resume</span>
+                  </div>
                 </>
               )}
             </Button>
