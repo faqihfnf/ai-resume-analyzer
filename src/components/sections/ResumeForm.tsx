@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -22,6 +22,7 @@ import {
   AlertCircle,
   Sparkles,
   FileType,
+  Globe,
 } from "lucide-react";
 import {
   resumeAnalysisSchema,
@@ -29,6 +30,13 @@ import {
   ResumeAnalysisFormData,
 } from "@/lib/validations";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface ResumeFormProps {
   onSubmit: (data: ResumeAnalysisFormData, file: File) => void;
@@ -42,10 +50,14 @@ export function ResumeForm({ onSubmit, loading }: ResumeFormProps) {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
     reset,
   } = useForm<ResumeAnalysisFormData>({
     resolver: zodResolver(resumeAnalysisSchema),
+    defaultValues: {
+      language: "indonesia", // Default ke Indonesia
+    },
   });
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -82,7 +94,7 @@ export function ResumeForm({ onSubmit, loading }: ResumeFormProps) {
   return (
     <Card className="mx-auto w-full max-w-2xl border-0 bg-gradient-to-br from-white to-slate-50 py-10 shadow-2xl dark:from-slate-900 dark:to-slate-800">
       <CardHeader className="space-y-2 pb-8 text-center">
-        <div className="mx-auto mb-4 flex w-52 items-center justify-center rounded-full bg-indigo-100 px-4 py-2 text-sm font-medium text-indigo-700">
+        <div className="mx-auto mb-4 flex w-52 items-center justify-center rounded-full bg-indigo-100 px-4 py-2 text-sm font-medium text-indigo-700 dark:bg-indigo-900 dark:text-indigo-300">
           <Sparkles className="mr-2 h-4 w-4" />
           AI-Powered Analysis
         </div>
@@ -164,7 +176,7 @@ export function ResumeForm({ onSubmit, loading }: ResumeFormProps) {
               id="jobRequirements"
               placeholder="Paste the job requirements here..."
               {...register("jobRequirements")}
-              className="min-h-32 resize-none border-2 transition-colors focus:border-purple-500"
+              className="min-h-32 resize-none border-2 transition-colors focus:border-pink-500"
               disabled={loading}
             />
             {errors.jobRequirements && (
@@ -197,6 +209,51 @@ export function ResumeForm({ onSubmit, loading }: ResumeFormProps) {
               <p className="flex items-center gap-1 text-sm text-red-500">
                 <AlertCircle className="h-4 w-4" />
                 {errors.jobDescription.message}
+              </p>
+            )}
+          </div>
+
+          {/* Language Selection */}
+          <div className="space-y-2">
+            <div className="flex items-center gap-1">
+              <Globe className="h-4 w-4 text-indigo-500" />
+              <Label className="mt-1 flex items-center text-sm font-semibold">
+                Language for AI Feedback
+              </Label>
+            </div>
+            <Controller
+              name="language"
+              control={control}
+              render={({ field }) => (
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                  disabled={loading}
+                >
+                  <SelectTrigger className="h-12 w-full border-2 focus:border-indigo-500">
+                    <SelectValue placeholder="Select feedback language" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="indonesia">
+                      <div className="flex items-center gap-2">
+                        {/* <span className="text-lg">🇮🇩</span> */}
+                        <span>Bahasa Indonesia</span>
+                      </div>
+                    </SelectItem>
+                    <SelectItem value="english">
+                      <div className="flex items-center gap-2">
+                        {/* <span className="text-lg">🇺🇸</span> */}
+                        <span>English</span>
+                      </div>
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+              )}
+            />
+            {errors.language && (
+              <p className="flex items-center gap-1 text-sm text-red-500">
+                <AlertCircle className="h-4 w-4" />
+                {errors.language.message}
               </p>
             )}
           </div>

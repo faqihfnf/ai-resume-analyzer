@@ -32,6 +32,7 @@ export default function HomePage() {
       formData.append("jobLevel", data.jobLevel);
       formData.append("jobRequirements", data.jobRequirements);
       formData.append("jobDescription", data.jobDescription);
+      formData.append("language", data.language);
       formData.append("resume", file);
 
       const res = await fetch("/api/analyze", {

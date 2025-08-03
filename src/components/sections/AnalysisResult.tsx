@@ -104,7 +104,7 @@ export function AnalysisResult({ feedback }: AnalysisResultProps) {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-lg leading-relaxed text-gray-700 dark:text-gray-300">
+          <p className="text-justify text-lg leading-relaxed text-gray-700 dark:text-gray-300">
             {feedback.summary}
           </p>
         </CardContent>

@@ -1,3 +1,4 @@
+// src/lib/validations.ts
 import { z } from "zod";
 
 export const resumeAnalysisSchema = z.object({
@@ -24,6 +25,11 @@ export const resumeAnalysisSchema = z.object({
     .min(1, "Job description is required")
     .min(50, "Job description must be at least 50 characters")
     .max(5000, "Job description must be less than 5000 characters"),
+
+  language: z.enum(["indonesia", "english"], {
+    required_error: "Please select a language",
+    invalid_type_error: "Please select a valid language",
+  }),
 });
 
 export const fileValidationSchema = z.object({
