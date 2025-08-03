@@ -13,7 +13,7 @@ export default function Navbar() {
             height={70}
             className=""
           ></Image>
-          <span className="mt-5 -ml-3.5 bg-gradient-to-r from-indigo-600 via-blue-500 to-cyan-500 bg-clip-text text-4xl font-bold text-transparent">
+          <span className="mt-5 -ml-3.5 bg-gradient-to-tl from-indigo-700 via-violet-600 to-purple-500 bg-clip-text fill-transparent text-4xl font-bold text-transparent">
             esumeaizer.
           </span>
         </Link>

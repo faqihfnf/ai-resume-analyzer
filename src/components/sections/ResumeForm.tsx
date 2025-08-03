@@ -21,6 +21,7 @@ import {
   User,
   AlertCircle,
   Sparkles,
+  FileType,
 } from "lucide-react";
 import {
   resumeAnalysisSchema,
@@ -81,12 +82,8 @@ export function ResumeForm({ onSubmit, loading }: ResumeFormProps) {
   return (
     <Card className="mx-auto w-full max-w-2xl border-0 bg-gradient-to-br from-white to-slate-50 py-10 shadow-2xl dark:from-slate-900 dark:to-slate-800">
       <CardHeader className="space-y-2 pb-8 text-center">
-        {/* <div className="mb-4 flex w-52 items-center justify-center gap-2 rounded-full bg-blue-100 px-4 py-2 text-sm font-medium text-blue-700 dark:bg-blue-900 dark:text-blue-300">
-          <Sparkles className="h-4 w-4" />
-          AI-Powered Analysis
-        </div> */}
-        <div className="mx-auto mb-4 flex w-52 items-center justify-center rounded-full bg-indigo-100/20 px-4 py-2 text-sm font-medium text-indigo-700">
-          <Sparkles className="h-4 w-4" />
+        <div className="mx-auto mb-4 flex w-52 items-center justify-center rounded-full bg-indigo-100 px-4 py-2 text-sm font-medium text-indigo-700">
+          <Sparkles className="mr-2 h-4 w-4" />
           AI-Powered Analysis
         </div>
 
@@ -102,13 +99,15 @@ export function ResumeForm({ onSubmit, loading }: ResumeFormProps) {
         <form onSubmit={handleSubmit(onFormSubmit)} className="space-y-6">
           {/* Job Title */}
           <div className="space-y-2">
-            <Label
-              htmlFor="jobTitle"
-              className="flex items-center gap-2 text-sm font-semibold"
-            >
+            <div className="flex items-center gap-1">
               <Briefcase className="h-4 w-4 text-blue-500" />
-              Job Title
-            </Label>
+              <Label
+                htmlFor="jobTitle"
+                className="mt-1 flex items-center text-sm font-semibold"
+              >
+                Job Title
+              </Label>
+            </div>
             <Input
               id="jobTitle"
               placeholder="e.g. Senior Frontend Developer"
@@ -126,13 +125,15 @@ export function ResumeForm({ onSubmit, loading }: ResumeFormProps) {
 
           {/* Job Level */}
           <div className="space-y-2">
-            <Label
-              htmlFor="jobLevel"
-              className="flex items-center gap-2 text-sm font-semibold"
-            >
+            <div className="flex items-center gap-1">
               <User className="h-4 w-4 text-green-500" />
-              Job Level
-            </Label>
+              <Label
+                htmlFor="jobLevel"
+                className="mt-1 flex items-center gap-1 text-sm font-semibold"
+              >
+                Job Level
+              </Label>
+            </div>
             <Input
               id="jobLevel"
               placeholder="e.g. Senior Level, Mid Level, Entry Level"
@@ -148,15 +149,43 @@ export function ResumeForm({ onSubmit, loading }: ResumeFormProps) {
             )}
           </div>
 
+          {/* Job Requirements */}
+          <div className="space-y-2">
+            <div className="flex items-center gap-1">
+              <FileType className="h-4 w-4 text-pink-500" />
+              <Label
+                htmlFor="jobRequirements"
+                className="mt-1 flex items-center gap-1 text-sm font-semibold"
+              >
+                Job Requirements
+              </Label>
+            </div>
+            <Textarea
+              id="jobRequirements"
+              placeholder="Paste the job requirements here..."
+              {...register("jobRequirements")}
+              className="min-h-32 resize-none border-2 transition-colors focus:border-purple-500"
+              disabled={loading}
+            />
+            {errors.jobRequirements && (
+              <p className="flex items-center gap-1 text-sm text-red-500">
+                <AlertCircle className="h-4 w-4" />
+                {errors.jobRequirements.message}
+              </p>
+            )}
+          </div>
+
           {/* Job Description */}
           <div className="space-y-2">
-            <Label
-              htmlFor="jobDescription"
-              className="flex items-center gap-2 text-sm font-semibold"
-            >
+            <div className="flex items-center gap-1">
               <FileText className="h-4 w-4 text-purple-500" />
-              Job Description
-            </Label>
+              <Label
+                htmlFor="jobDescription"
+                className="mt-1 flex items-center gap-1 text-sm font-semibold"
+              >
+                Job Description
+              </Label>
+            </div>
             <Textarea
               id="jobDescription"
               placeholder="Paste the complete job description here..."

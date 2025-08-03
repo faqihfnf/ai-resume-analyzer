@@ -8,6 +8,7 @@ export async function POST(req: NextRequest) {
 
     const jobTitle = formData.get("jobTitle") as string;
     const jobLevel = formData.get("jobLevel") as string;
+    const jobRequirements = formData.get("jobRequirements") as string;
     const jobDescription = formData.get("jobDescription") as string;
     const file = formData.get("resume") as File;
 
@@ -16,7 +17,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "No file uploaded" }, { status: 400 });
     }
 
-    if (!jobTitle || !jobLevel || !jobDescription) {
+    if (!jobTitle || !jobLevel || !jobRequirements || !jobDescription) {
       return NextResponse.json(
         { error: "Missing required fields" },
         { status: 400 },
@@ -47,12 +48,13 @@ export async function POST(req: NextRequest) {
 
     console.log("🤖 Analyzing resume with AI...");
 
-    // Buat prompt untuk AI
+    //# Buat prompt untuk AI
     const prompt = `
 Analyze this resume against the job requirements and provide feedback in JSON format.
 
 Job Title: ${jobTitle}
 Job Level: ${jobLevel}
+Job Requirements: ${jobRequirements}
 Job Description: ${jobDescription}
 
 Resume Content:

@@ -7,6 +7,7 @@ import { ResumeAnalysisFormData } from "@/lib/validations";
 import { ResumeForm } from "@/components/sections/ResumeForm";
 import { AnalysisResult } from "@/components/sections/AnalysisResult";
 import Image from "next/image";
+import ColourfulText from "@/components/ui/colourful-text";
 
 interface FeedbackData {
   score: number;
@@ -29,6 +30,7 @@ export default function HomePage() {
       const formData = new FormData();
       formData.append("jobTitle", data.jobTitle);
       formData.append("jobLevel", data.jobLevel);
+      formData.append("jobRequirements", data.jobRequirements);
       formData.append("jobDescription", data.jobDescription);
       formData.append("resume", file);
 
@@ -60,28 +62,19 @@ export default function HomePage() {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-indigo-200 via-violet-100 to-pink-200 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800">
+    <main className="min-h-screen bg-gradient-to-br from-indigo-200 via-violet-100 to-pink-200 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800">
       {/* Header */}
       <div className="container mx-auto px-4 py-8">
         <div className="mt-20 mb-8 text-center">
-          {/* <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-blue-100 px-4 py-2 text-sm font-medium text-blue-700 dark:bg-blue-900 dark:text-blue-300">
-            <Sparkles className="h-4 w-4" />
-            AI-Powered Analysis
-          </div> */}
-          {/* <h1 className="mb-4 bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-4xl font-bold text-transparent md:text-6xl">
-            Resumeaizer
-          </h1>
-          <Image
-            src="/logo.png"
-            alt="Resumeaizer Logo"
-            width={100}
-            height={100}
-            className="mx-auto"
-          /> */}
-          <p className="mx-auto max-w-2xl text-lg leading-relaxed text-gray-600 md:text-xl dark:text-gray-400">
-            Get instant AI-powered feedback on your resume and improve your
-            chances of landing your dream job
+          <p className="mx-auto text-lg text-slate-600 md:text-2xl dark:text-slate-400">
+            AI-Powered Analysis to Get <ColourfulText text="Instant Feedback" />{" "}
+            {""}
+            on Your Resume
+            <br />
+            Improve your chances of landing your{" "}
+            <ColourfulText text="Dream Job" />
           </p>
+          {/* Get instant feedback on your resume with AI-powered analysis. Improve your chances of landing your dream job */}
         </div>
 
         {/* Error Display */}
@@ -116,7 +109,7 @@ export default function HomePage() {
               <Button
                 onClick={handleStartOver}
                 variant="outline"
-                className="mb-6 cursor-pointer border-2 hover:bg-gray-50 dark:hover:bg-gray-800"
+                className="mb-6 cursor-pointer border-2 hover:bg-slate-50 dark:hover:bg-slate-800"
               >
                 <ArrowLeft className="mr-2 h-4 w-4" />
                 Analyze Another Resume
@@ -130,9 +123,9 @@ export default function HomePage() {
       </div>
 
       {/* Footer */}
-      <footer className="mt-16 border-t border-gray-200 bg-white/50 backdrop-blur-sm dark:border-gray-800 dark:bg-gray-900/50">
+      <footer className="mt-16 border-t border-slate-200 bg-white/50 backdrop-blur-sm dark:border-slate-800 dark:bg-slate-900/50">
         <div className="container mx-auto px-4 py-8 text-center">
-          <p className="text-gray-600 dark:text-gray-400">
+          <p className="text-slate-600 dark:text-slate-400">
             &copy; {new Date().getFullYear()} Resume Analyzer. All rights
             reserved.
           </p>

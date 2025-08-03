@@ -13,6 +13,12 @@ export const resumeAnalysisSchema = z.object({
     .min(5, "Job level must be at least 5 characters")
     .max(50, "Job level must be less than 50 characters"),
 
+  jobRequirements: z
+    .string()
+    .min(1, "Job requirements are required")
+    .min(50, "Job requirements must be at least 50 characters")
+    .max(5000, "Job requirements must be less than 5000 characters"),
+
   jobDescription: z
     .string()
     .min(1, "Job description is required")
