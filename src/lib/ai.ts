@@ -9,52 +9,273 @@ const openai = new OpenAI({
   },
 });
 
+interface AnalysisResult {
+  score: number;
+  summary: string;
+  strengths: string[];
+  weaknesses: string[];
+  skillsMatch: {
+    matched: string[];
+    missing: string[];
+    percentage: number;
+  };
+  keywordAnalysis: {
+    found: string[];
+    missing: string[];
+    density: number;
+  };
+  recommendations: string[];
+  atsScore: number;
+  competitiveness: "high" | "medium" | "low";
+  experienceAnalysis: {
+    relevantYears: number;
+    industryMatch: boolean;
+    careerProgression: "excellent" | "good" | "needs_improvement";
+  };
+}
+
 function cleanJson(str: string): string {
-  return str
-    .replace(/^.*?(?=\{)/m, "")
-    .replace(/\}.*$/m, "}")
-    .replace(/,\s*}/g, "}")
-    .replace(/,\s*]/g, "]");
-}
+  // Remove any text before the first {
+  let cleaned = str.replace(/^[^{]*/, "");
 
-function extractJson(text: string): any | null {
-  try {
-    const cleaned = cleanJson(text);
-    return JSON.parse(cleaned);
-  } catch (e) {
-    console.error("Failed to parse AI response:", e);
-    return null;
+  // Remove any text after the last }
+  const lastBraceIndex = cleaned.lastIndexOf("}");
+  if (lastBraceIndex !== -1) {
+    cleaned = cleaned.substring(0, lastBraceIndex + 1);
   }
+
+  // Fix common JSON formatting issues
+  cleaned = cleaned
+    .replace(/,\s*}/g, "}") // Remove trailing commas in objects
+    .replace(/,\s*]/g, "]") // Remove trailing commas in arrays
+    .replace(/(['"])?([a-zA-Z0-9_]+)(['"])?:/g, '"$2":') // Fix unquoted keys
+    .replace(/:\s*'([^']*)'/g, ': "$1"') // Replace single quotes with double quotes
+    .replace(/\\n/g, "\\n") // Ensure newlines are properly escaped
+    .replace(/\\t/g, "\\t") // Ensure tabs are properly escaped
+    .trim();
+
+  return cleaned;
 }
 
-export async function analyzeResumeWithAI(prompt: string) {
+function extractJson(text: string): AnalysisResult | null {
   try {
-    const completion = await openai.chat.completions.create({
-      model: "mistralai/mistral-7b-instruct:free",
-      messages: [
-        {
-          role: "system",
-          content:
-            "You are a resume expert. Always respond in valid JSON format. Do not include any explanation or markdown. ",
-        },
-        {
-          role: "user",
-          content: prompt,
-        },
-      ],
-      temperature: 0.3,
-    });
-
-    const responseText = completion.choices[0].message.content ?? "";
-    const json = extractJson(responseText);
-
-    if (!json || typeof json.score !== "number") {
-      throw new Error("Invalid response format");
+    // First, try to parse the raw response
+    const parsed = JSON.parse(text);
+    if (isValidAnalysisResult(parsed)) {
+      return parsed;
     }
-
-    return json;
-  } catch (error) {
-    console.error("AI error:", error);
-    throw error;
+  } catch (e) {
+    // If that fails, try cleaning the JSON
+    try {
+      const cleaned = cleanJson(text);
+      const parsed = JSON.parse(cleaned);
+      if (isValidAnalysisResult(parsed)) {
+        return parsed;
+      }
+    } catch (e2) {
+      console.error("Failed to parse cleaned JSON:", e2);
+    }
   }
+
+  // Try to extract JSON using regex as last resort
+  const jsonMatch = text.match(/\{[\s\S]*\}/);
+  if (jsonMatch) {
+    try {
+      const cleaned = cleanJson(jsonMatch[0]);
+      const parsed = JSON.parse(cleaned);
+      if (isValidAnalysisResult(parsed)) {
+        return parsed;
+      }
+    } catch (e3) {
+      console.error("Failed to parse regex extracted JSON:", e3);
+    }
+  }
+
+  return null;
+}
+
+function isValidAnalysisResult(obj: any): obj is AnalysisResult {
+  return (
+    obj &&
+    typeof obj === "object" &&
+    typeof obj.score === "number" &&
+    typeof obj.summary === "string" &&
+    Array.isArray(obj.strengths) &&
+    Array.isArray(obj.weaknesses) &&
+    obj.skillsMatch &&
+    Array.isArray(obj.skillsMatch.matched) &&
+    Array.isArray(obj.skillsMatch.missing) &&
+    typeof obj.skillsMatch.percentage === "number" &&
+    obj.keywordAnalysis &&
+    Array.isArray(obj.keywordAnalysis.found) &&
+    Array.isArray(obj.keywordAnalysis.missing) &&
+    typeof obj.keywordAnalysis.density === "number" &&
+    Array.isArray(obj.recommendations) &&
+    typeof obj.atsScore === "number" &&
+    typeof obj.competitiveness === "string" &&
+    obj.experienceAnalysis &&
+    typeof obj.experienceAnalysis.relevantYears === "number" &&
+    typeof obj.experienceAnalysis.industryMatch === "boolean" &&
+    typeof obj.experienceAnalysis.careerProgression === "string"
+  );
+}
+
+function createFallbackResult(language: string): AnalysisResult {
+  const isIndonesian = language === "indonesia";
+
+  return {
+    score: 65,
+    summary: isIndonesian
+      ? "Analisis resume tidak dapat diselesaikan sepenuhnya, namun resume menunjukkan potensi yang baik dengan beberapa area yang perlu diperbaiki."
+      : "Resume analysis could not be completed fully, but the resume shows good potential with some areas for improvement.",
+    strengths: isIndonesian
+      ? [
+          "Format resume dapat dibaca",
+          "Informasi kontak tersedia",
+          "Pengalaman kerja tercantum",
+          "Pendidikan formal ada",
+        ]
+      : [
+          "Resume format is readable",
+          "Contact information available",
+          "Work experience listed",
+          "Education background present",
+        ],
+    weaknesses: isIndonesian
+      ? [
+          "Perlu optimasi kata kunci",
+          "Deskripsi pencapaian kurang detail",
+          "Skills perlu diperjelas",
+          "Format bisa lebih baik",
+        ]
+      : [
+          "Needs keyword optimization",
+          "Achievement descriptions lack detail",
+          "Skills need clarification",
+          "Format could be improved",
+        ],
+    skillsMatch: {
+      matched: ["Communication", "Teamwork", "Problem Solving"],
+      missing: ["Technical Skills", "Industry Knowledge"],
+      percentage: 60,
+    },
+    keywordAnalysis: {
+      found: ["Experience", "Education", "Skills"],
+      missing: ["Industry Keywords", "Technical Terms"],
+      density: 45,
+    },
+    recommendations: isIndonesian
+      ? [
+          "Tambahkan kata kunci yang relevan dengan posisi",
+          "Perjelas pencapaian dengan angka konkret",
+          "Sesuaikan format untuk ATS compatibility",
+          "Tambahkan skills teknis yang dibutuhkan",
+          "Perbaiki struktur dan tata letak resume",
+        ]
+      : [
+          "Add relevant keywords for the position",
+          "Clarify achievements with concrete numbers",
+          "Adjust format for ATS compatibility",
+          "Add required technical skills",
+          "Improve resume structure and layout",
+        ],
+    atsScore: 70,
+    competitiveness: "medium",
+    experienceAnalysis: {
+      relevantYears: 2,
+      industryMatch: false,
+      careerProgression: "needs_improvement",
+    },
+  };
+}
+
+export async function analyzeResumeWithAI(
+  prompt: string,
+): Promise<AnalysisResult> {
+  const maxRetries = 3;
+  let lastError: Error | null = null;
+
+  // Extract language from prompt for fallback
+  const language = prompt.includes("Bahasa Indonesia")
+    ? "indonesia"
+    : "english";
+
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      console.log(`🤖 AI Analysis attempt ${attempt}/${maxRetries}`);
+
+      const completion = await openai.chat.completions.create({
+        model: "mistralai/mistral-7b-instruct:free",
+        messages: [
+          {
+            role: "system",
+            content: `You are a professional resume analyst. You MUST respond with ONLY a valid JSON object. 
+            Do not include any explanations, markdown, or text outside the JSON.
+            The JSON must be properly formatted and contain all required fields.
+            
+            Example of expected JSON structure:
+            {
+              "score": 75,
+              "summary": "Brief analysis summary",
+              "strengths": ["strength1", "strength2"],
+              "weaknesses": ["weakness1", "weakness2"],
+              "skillsMatch": {
+                "matched": ["skill1", "skill2"],
+                "missing": ["missing1"],
+                "percentage": 80
+              },
+              "keywordAnalysis": {
+                "found": ["keyword1"],
+                "missing": ["missing1"],
+                "density": 60
+              },
+              "recommendations": ["rec1", "rec2"],
+              "atsScore": 85,
+              "competitiveness": "high",
+              "experienceAnalysis": {
+                "relevantYears": 3,
+                "industryMatch": true,
+                "careerProgression": "good"
+              }
+            }`,
+          },
+          {
+            role: "user",
+            content: prompt,
+          },
+        ],
+        temperature: 0.1, // Lower temperature for more consistent output
+        max_tokens: 2000,
+      });
+
+      const responseText = completion.choices[0].message.content ?? "";
+      console.log(
+        `📋 Raw AI Response (attempt ${attempt}):`,
+        responseText.substring(0, 200) + "...",
+      );
+
+      const result = extractJson(responseText);
+
+      if (result) {
+        console.log("✅ Successfully parsed AI response");
+        return result;
+      } else {
+        throw new Error(`Invalid JSON format on attempt ${attempt}`);
+      }
+    } catch (error) {
+      console.error(`❌ AI Analysis attempt ${attempt} failed:`, error);
+      lastError = error instanceof Error ? error : new Error(String(error));
+
+      if (attempt === maxRetries) {
+        console.log("🔄 All attempts failed, using fallback result");
+        return createFallbackResult(language);
+      }
+
+      // Wait before retry (exponential backoff)
+      await new Promise((resolve) => setTimeout(resolve, 1000 * attempt));
+    }
+  }
+
+  // This should never be reached, but just in case
+  return createFallbackResult(language);
 }

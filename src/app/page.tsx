@@ -5,9 +5,9 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, Sparkles } from "lucide-react";
 import { ResumeAnalysisFormData } from "@/lib/validations";
 import { ResumeForm } from "@/components/sections/ResumeForm";
-import { AnalysisResult } from "@/components/sections/AnalysisResult";
 import Image from "next/image";
 import ColourfulText from "@/components/ui/colourful-text";
+import { AnalysisResult } from "@/components/sections/AnalysisResult";
 
 interface FeedbackData {
   score: number;
@@ -104,9 +104,9 @@ export default function HomePage() {
         {!feedback ? (
           <ResumeForm onSubmit={handleSubmit} loading={loading} />
         ) : (
-          <div className="space-y-8">
+          <div className="space-y-0">
             {/* Back Button */}
-            <div className="mx-auto max-w-4xl">
+            <div className="mx-auto max-w-6xl">
               <Button
                 onClick={handleStartOver}
                 variant="outline"

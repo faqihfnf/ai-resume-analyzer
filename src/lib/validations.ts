@@ -46,5 +46,31 @@ export const fileValidationSchema = z.object({
     ),
 });
 
+// Enhanced feedback interface
+export interface EnhancedFeedbackData {
+  score: number;
+  strengths: string[];
+  weaknesses: string[];
+  summary: string;
+  skillsMatch?: {
+    matched: string[];
+    missing: string[];
+    percentage: number;
+  };
+  experienceAnalysis?: {
+    relevantYears: number;
+    industryMatch: boolean;
+    careerProgression: "excellent" | "good" | "needs_improvement";
+  };
+  recommendations?: string[];
+  keywordAnalysis?: {
+    found: string[];
+    missing: string[];
+    density: number;
+  };
+  atsScore?: number;
+  competitiveness?: "high" | "medium" | "low";
+}
+
 export type ResumeAnalysisFormData = z.infer<typeof resumeAnalysisSchema>;
 export type FileValidationData = z.infer<typeof fileValidationSchema>;
