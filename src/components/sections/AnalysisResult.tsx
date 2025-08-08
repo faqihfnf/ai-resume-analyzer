@@ -189,19 +189,19 @@ export function AnalysisResult({ feedback }: AnalysisResultProps) {
       {/* Tabs for Different Views */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="overview" className="gap-2">
+          <TabsTrigger value="overview" className="cursor-pointer gap-2">
             <FileText className="h-4 w-4" />
             Overview
           </TabsTrigger>
-          <TabsTrigger value="skills" className="gap-2">
+          <TabsTrigger value="skills" className="cursor-pointer gap-2">
             <Brain className="h-4 w-4" />
             Skills
           </TabsTrigger>
-          <TabsTrigger value="keywords" className="gap-2">
+          <TabsTrigger value="keywords" className="cursor-pointer gap-2">
             <Target className="h-4 w-4" />
             Keywords
           </TabsTrigger>
-          <TabsTrigger value="recommendations" className="gap-2">
+          <TabsTrigger value="recommendations" className="cursor-pointer gap-2">
             <Lightbulb className="h-4 w-4" />
             Tips
           </TabsTrigger>

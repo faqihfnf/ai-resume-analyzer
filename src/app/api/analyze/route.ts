@@ -12,6 +12,7 @@ export async function POST(req: NextRequest) {
     const jobDescription = formData.get("jobDescription") as string;
     const language = formData.get("language") as string;
     const file = formData.get("resume") as File;
+    const model = formData.get("model") as string;
 
     // Validasi input
     if (!file) {
@@ -23,7 +24,8 @@ export async function POST(req: NextRequest) {
       !jobLevel ||
       !jobRequirements ||
       !jobDescription ||
-      !language
+      !language ||
+      !model
     ) {
       return NextResponse.json(
         { error: "Missing required fields" },
@@ -136,18 +138,8 @@ Respond with ONLY valid JSON in ${selectedLanguage.promptLanguage}. Use REALISTI
   }
 }`;
 
-    // Analyze dengan error handling yang lebih baik
-    let analysis;
-    try {
-      analysis = await analyzeResumeWithAI(prompt);
-      console.log("✅ Analysis completed successfully");
-    } catch (aiError) {
-      console.error("❌ AI Analysis failed:", aiError);
-
-      // Jika AI analysis gagal, analysis sudah otomatis menggunakan fallback
-      // dari function analyzeResumeWithAI, jadi kita tidak perlu handle di sini
-      analysis = await analyzeResumeWithAI(prompt);
-    }
+    const analysis = await analyzeResumeWithAI(prompt, model);
+    console.log("✅ Analysis completed successfully");
 
     // Validasi final result
     if (!analysis || typeof analysis.score !== "number") {

@@ -26,6 +26,7 @@ import {
   BookCheck,
   Brain,
   Loader2,
+  Bot,
 } from "lucide-react";
 import {
   resumeAnalysisSchema,
@@ -40,6 +41,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { aiModels } from "@/constant/aiModel";
 
 interface ResumeFormProps {
   onSubmit: (data: ResumeAnalysisFormData, file: File) => void;
@@ -60,6 +62,7 @@ export function ResumeForm({ onSubmit, loading }: ResumeFormProps) {
     resolver: zodResolver(resumeAnalysisSchema),
     defaultValues: {
       language: "indonesia", // Default ke Indonesia
+      aiModel: "mistralai/mistral-7b-instruct:free", // Default AI model
     },
   });
 
@@ -233,16 +236,16 @@ export function ResumeForm({ onSubmit, loading }: ResumeFormProps) {
                   defaultValue={field.value}
                   disabled={loading}
                 >
-                  <SelectTrigger className="h-12 w-full border-2">
+                  <SelectTrigger className="h-12 w-full cursor-pointer border-2">
                     <SelectValue placeholder="Select feedback language" />
                   </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="indonesia">
+                  <SelectContent className="cursor-pointer">
+                    <SelectItem value="indonesia" className="cursor-pointer">
                       <div className="flex items-center gap-2">
                         <span>Indonesia</span>
                       </div>
                     </SelectItem>
-                    <SelectItem value="english">
+                    <SelectItem value="english" className="cursor-pointer">
                       <div className="flex items-center gap-2">
                         <span>English</span>
                       </div>
@@ -255,6 +258,50 @@ export function ResumeForm({ onSubmit, loading }: ResumeFormProps) {
               <p className="flex items-center gap-1 text-sm text-red-500">
                 <AlertCircle className="h-4 w-4" />
                 {errors.language.message}
+              </p>
+            )}
+          </div>
+
+          {/* AI Model Selection */}
+          <div className="space-y-2">
+            <div className="flex items-center gap-1">
+              <Bot className="h-4 w-4 text-orange-500" />
+              <Label className="mt-1 flex items-center text-sm font-semibold">
+                AI Model
+              </Label>
+            </div>
+            <Controller
+              name="aiModel"
+              control={control}
+              render={({ field }) => (
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                  disabled={loading}
+                >
+                  <SelectTrigger className="h-12 w-full cursor-pointer border-2">
+                    <SelectValue placeholder="Select AI model" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {aiModels.map((model) => (
+                      <SelectItem
+                        key={model.value}
+                        value={model.value}
+                        className="cursor-pointer"
+                      >
+                        <div className="flex flex-col items-start gap-1">
+                          <span>{model.label}</span>
+                        </div>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              )}
+            />
+            {errors.aiModel && (
+              <p className="flex items-center gap-1 text-sm text-red-500">
+                <AlertCircle className="h-4 w-4" />
+                {errors.aiModel.message}
               </p>
             )}
           </div>
@@ -276,7 +323,7 @@ export function ResumeForm({ onSubmit, loading }: ResumeFormProps) {
                 type="file"
                 accept="application/pdf"
                 onChange={handleFileChange}
-                className="h-10 border-2 border-dashed transition-colors file:rounded-md file:border-0 file:bg-lime-50 file:px-4 file:text-sm file:font-semibold file:text-lime-700 hover:file:bg-lime-100 focus:border-lime-500"
+                className="h-10 cursor-pointer border-2 border-dashed transition-colors file:rounded-md file:border-0 file:bg-lime-50 file:px-4 file:text-sm file:font-semibold file:text-lime-700 hover:file:bg-lime-100 focus:border-lime-500"
                 disabled={loading}
               />
               {file && (

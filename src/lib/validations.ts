@@ -30,6 +30,20 @@ export const resumeAnalysisSchema = z.object({
     required_error: "Please select a language",
     invalid_type_error: "Please select a valid language",
   }),
+
+  aiModel: z.enum(
+    [
+      "mistralai/mistral-7b-instruct:free",
+      "deepseek/deepseek-r1-0528:free",
+      "qwen/qwen3-235b-a22b:free",
+      "google/gemini-2.0-flash-exp:free",
+      "openai/gpt-oss-20b:free",
+    ],
+    {
+      required_error: "Please select an AI model",
+      invalid_type_error: "Please select a valid AI model",
+    },
+  ),
 });
 
 export const fileValidationSchema = z.object({

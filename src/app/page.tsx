@@ -34,6 +34,7 @@ export default function HomePage() {
       formData.append("jobDescription", data.jobDescription);
       formData.append("language", data.language);
       formData.append("resume", file);
+      formData.append("model", data.aiModel);
 
       const res = await fetch("/api/analyze", {
         method: "POST",

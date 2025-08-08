@@ -34,6 +34,14 @@ interface AnalysisResult {
   };
 }
 
+// Simplified: Only model selection, same settings for all models
+const DEFAULT_SETTINGS = {
+  temperature: 0.5,
+  maxTokens: 2000,
+  systemPrompt:
+    "You are a professional resume analyst. You MUST respond with ONLY a valid JSON object. Do not include any explanations, markdown, or text outside the JSON. The JSON must be properly formatted and contain all required fields.",
+};
+
 function cleanJson(str: string): string {
   // Remove any text before the first {
   let cleaned = str.replace(/^[^{]*/, "");
@@ -120,14 +128,17 @@ function isValidAnalysisResult(obj: any): obj is AnalysisResult {
   );
 }
 
-function createFallbackResult(language: string): AnalysisResult {
+function createFallbackResult(
+  language: string,
+  modelUsed: string,
+): AnalysisResult {
   const isIndonesian = language === "indonesia";
 
   return {
     score: 65,
     summary: isIndonesian
-      ? "Analisis resume tidak dapat diselesaikan sepenuhnya, namun resume menunjukkan potensi yang baik dengan beberapa area yang perlu diperbaiki."
-      : "Resume analysis could not be completed fully, but the resume shows good potential with some areas for improvement.",
+      ? `Analisis resume tidak dapat diselesaikan sepenuhnya dengan model ${getModelDisplayName(modelUsed)}, namun resume menunjukkan potensi yang baik dengan beberapa area yang perlu diperbaiki.`
+      : `Resume analysis could not be completed fully with ${getModelDisplayName(modelUsed)}, but the resume shows good potential with some areas for improvement.`,
     strengths: isIndonesian
       ? [
           "Format resume dapat dibaca",
@@ -189,8 +200,20 @@ function createFallbackResult(language: string): AnalysisResult {
   };
 }
 
+function getModelDisplayName(modelId: string): string {
+  const modelNames: Record<string, string> = {
+    "mistralai/mistral-7b-instruct:free": "Mistral",
+    "deepseek/deepseek-r1-0528:free": "DeepSeek",
+    "qwen/qwen3-235b-a22b:free": "Qwen",
+    "google/gemini-2.0-flash-exp:free": "Gemini",
+    "openai/gpt-oss-20b:free": "OpenAI GPT",
+  };
+  return modelNames[modelId] || modelId;
+}
+
 export async function analyzeResumeWithAI(
   prompt: string,
+  selectedModel?: string, // Ubah ke optional parameter
 ): Promise<AnalysisResult> {
   const maxRetries = 3;
   let lastError: Error | null = null;
@@ -200,18 +223,28 @@ export async function analyzeResumeWithAI(
     ? "indonesia"
     : "english";
 
+  // Set default hanya jika tidak ada selectedModel yang dikirim
+  const modelToUse = selectedModel || "mistralai/mistral-7b-instruct:free";
+
+  // Get default settings (same for all models)
+  const config = DEFAULT_SETTINGS;
+
+  console.log(`🤖 Using AI Model: ${getModelDisplayName(modelToUse)}`);
+  console.log(`📝 Selected Model Parameter: ${selectedModel}`); // Debug log
+  console.log(`🎯 Model To Use: ${modelToUse}`); // Debug log
+
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
-      console.log(`🤖 AI Analysis attempt ${attempt}/${maxRetries}`);
+      console.log(
+        `🔄 AI Analysis attempt ${attempt}/${maxRetries} with ${getModelDisplayName(modelToUse)}`,
+      );
 
       const completion = await openai.chat.completions.create({
-        model: "mistralai/mistral-7b-instruct:free",
+        model: modelToUse, // Pastikan menggunakan variable yang benar
         messages: [
           {
             role: "system",
-            content: `You are a professional resume analyst. You MUST respond with ONLY a valid JSON object. 
-            Do not include any explanations, markdown, or text outside the JSON.
-            The JSON must be properly formatted and contain all required fields.
+            content: `${config.systemPrompt}
             
             Example of expected JSON structure:
             {
@@ -244,8 +277,8 @@ export async function analyzeResumeWithAI(
             content: prompt,
           },
         ],
-        temperature: 0.1, // Lower temperature for more consistent output
-        max_tokens: 2000,
+        temperature: config.temperature,
+        max_tokens: config.maxTokens,
       });
 
       const responseText = completion.choices[0].message.content ?? "";
@@ -268,7 +301,7 @@ export async function analyzeResumeWithAI(
 
       if (attempt === maxRetries) {
         console.log("🔄 All attempts failed, using fallback result");
-        return createFallbackResult(language);
+        return createFallbackResult(language, modelToUse);
       }
 
       // Wait before retry (exponential backoff)
@@ -277,5 +310,5 @@ export async function analyzeResumeWithAI(
   }
 
   // This should never be reached, but just in case
-  return createFallbackResult(language);
+  return createFallbackResult(language, modelToUse);
 }
