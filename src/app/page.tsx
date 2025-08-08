@@ -2,10 +2,9 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Sparkles } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { ResumeAnalysisFormData } from "@/lib/validations";
 import { ResumeForm } from "@/components/sections/ResumeForm";
-import Image from "next/image";
 import ColourfulText from "@/components/ui/colourful-text";
 import { AnalysisResult } from "@/components/sections/AnalysisResult";
 

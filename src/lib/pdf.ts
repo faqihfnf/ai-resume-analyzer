@@ -1,28 +1,26 @@
-import * as pdfjsLib from "pdfjs-dist";
+// file: src/lib/pdf.ts
 
-// Set worker path for PDF.js
-if (typeof window === "undefined") {
-  // Server-side
-  pdfjsLib.GlobalWorkerOptions.workerSrc = require("pdfjs-dist/build/pdf.worker.min.js");
-}
+import * as pdfjsLib from "pdfjs-dist";
+import "pdfjs-dist/build/pdf.worker.entry";
 
 export async function extractTextFromPDF(buffer: Buffer): Promise<string> {
   try {
-    // Convert Buffer to Uint8Array
     const uint8Array = new Uint8Array(buffer);
-
-    // Load PDF document
     const loadingTask = pdfjsLib.getDocument({ data: uint8Array });
     const pdf = await loadingTask.promise;
-
     let fullText = "";
 
-    // Extract text from each page
     for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
       const page = await pdf.getPage(pageNum);
       const textContent = await page.getTextContent();
 
-      const pageText = textContent.items.map((item: any) => item.str).join(" ");
+      // ✅ INI PERBAIKANNYA:
+      // Kita cek dulu apakah properti 'str' ada di dalam 'item'.
+      // Jika ada (artinya itu TextItem), kita ambil nilainya.
+      // Jika tidak ada (artinya itu TextMarkedContent), kita kembalikan string kosong.
+      const pageText = textContent.items
+        .map((item) => ("str" in item ? item.str : ""))
+        .join(" ");
 
       fullText += pageText + "\n";
     }

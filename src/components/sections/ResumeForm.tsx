@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { ZodError } from "zod";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
@@ -22,7 +23,6 @@ import {
   AlertCircle,
   Sparkles,
   FileType,
-  Globe,
   BookCheck,
   Brain,
   Loader2,
@@ -74,8 +74,19 @@ export function ResumeForm({ onSubmit, loading }: ResumeFormProps) {
       try {
         fileValidationSchema.parse({ file: selectedFile });
         setFile(selectedFile);
-      } catch (error: any) {
-        setFileError(error.errors[0]?.message || "Invalid file");
+      } catch (e: unknown) {
+        // ✅ Ganti 'any' dengan 'unknown'
+        // ✅ Lakukan pengecekan tipe untuk memastikan error berasal dari Zod
+        if (e instanceof ZodError) {
+          setFileError(e.errors[0]?.message || "Invalid file type or size");
+        } else {
+          // Fallback untuk error yang tidak terduga
+          console.error(
+            "An unexpected error occurred during file validation:",
+            e,
+          );
+          setFileError("An unexpected error occurred.");
+        }
         setFile(null);
       }
     } else {

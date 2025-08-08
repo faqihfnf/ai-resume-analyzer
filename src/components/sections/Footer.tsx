@@ -1,4 +1,4 @@
-import { Github, Linkedin, Twitter, Youtube } from "lucide-react";
+import { Github, Linkedin, Youtube } from "lucide-react";
 import Link from "next/link";
 
 export default function Footer() {
@@ -37,7 +37,7 @@ export default function Footer() {
           <Linkedin className="h-5 w-5" />
         </Link>
         <Link
-          href="https://twitter.com/username"
+          href="https://youtube.com/@marifahid"
           target="_blank"
           rel="noopener noreferrer"
           className="bg-opacity-75 bg-black-200 flex h-10 w-10 cursor-pointer items-center justify-center rounded-lg border border-indigo-400 text-indigo-600 saturate-180 backdrop-blur-lg backdrop-filter hover:border-indigo-600 hover:bg-indigo-600 hover:text-white dark:border-slate-700"

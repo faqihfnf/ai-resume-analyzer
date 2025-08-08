@@ -37,9 +37,9 @@ interface AnalysisResult {
 // Simplified: Only model selection, same settings for all models
 const DEFAULT_SETTINGS = {
   temperature: 0.5,
-  maxTokens: 2000,
+  maxTokens: 4000,
   systemPrompt:
-    "You are a professional resume analyst. You MUST respond with ONLY a valid JSON object. Do not include any explanations, markdown, or text outside the JSON. The JSON must be properly formatted and contain all required fields.",
+    "You are a professional resume analyst and recruiter with a deep understanding of resume analysis and job requirements analysis. You MUST respond with ONLY a valid JSON object. Do not include any explanations, markdown, or text outside the JSON. The JSON must be properly formatted and contain all required fields.",
 };
 
 function cleanJson(str: string): string {
@@ -72,7 +72,7 @@ function extractJson(text: string): AnalysisResult | null {
     if (isValidAnalysisResult(parsed)) {
       return parsed;
     }
-  } catch (e) {
+  } catch {
     // If that fails, try cleaning the JSON
     try {
       const cleaned = cleanJson(text);
@@ -102,29 +102,50 @@ function extractJson(text: string): AnalysisResult | null {
   return null;
 }
 
-function isValidAnalysisResult(obj: any): obj is AnalysisResult {
+// file: ai.ts
+
+function isValidAnalysisResult(obj: unknown): obj is AnalysisResult {
+  // Pengecekan awal, pastikan 'obj' adalah object dan bukan null.
+  if (typeof obj !== "object" || obj === null) {
+    return false;
+  }
+
+  // Cast 'obj' ke Record<string, unknown> agar kita bisa mengakses propertinya.
+  const o = obj as Record<string, unknown>;
+
+  // ✅ INI BAGIAN YANG DIPERBAIKI TOTAL
+  // Setiap properti yang berupa object (seperti skillsMatch) harus dicek tipenya secara eksplisit
+  // sebelum digunakan sebagai kondisi atau diakses properti di dalamnya.
   return (
-    obj &&
-    typeof obj === "object" &&
-    typeof obj.score === "number" &&
-    typeof obj.summary === "string" &&
-    Array.isArray(obj.strengths) &&
-    Array.isArray(obj.weaknesses) &&
-    obj.skillsMatch &&
-    Array.isArray(obj.skillsMatch.matched) &&
-    Array.isArray(obj.skillsMatch.missing) &&
-    typeof obj.skillsMatch.percentage === "number" &&
-    obj.keywordAnalysis &&
-    Array.isArray(obj.keywordAnalysis.found) &&
-    Array.isArray(obj.keywordAnalysis.missing) &&
-    typeof obj.keywordAnalysis.density === "number" &&
-    Array.isArray(obj.recommendations) &&
-    typeof obj.atsScore === "number" &&
-    typeof obj.competitiveness === "string" &&
-    obj.experienceAnalysis &&
-    typeof obj.experienceAnalysis.relevantYears === "number" &&
-    typeof obj.experienceAnalysis.industryMatch === "boolean" &&
-    typeof obj.experienceAnalysis.careerProgression === "string"
+    typeof o.score === "number" &&
+    typeof o.summary === "string" &&
+    Array.isArray(o.strengths) &&
+    Array.isArray(o.weaknesses) &&
+    // Validasi untuk 'skillsMatch'
+    typeof o.skillsMatch === "object" &&
+    o.skillsMatch !== null &&
+    Array.isArray((o.skillsMatch as Record<string, unknown>).matched) &&
+    Array.isArray((o.skillsMatch as Record<string, unknown>).missing) &&
+    typeof (o.skillsMatch as Record<string, unknown>).percentage === "number" &&
+    // Validasi untuk 'keywordAnalysis'
+    typeof o.keywordAnalysis === "object" &&
+    o.keywordAnalysis !== null &&
+    Array.isArray((o.keywordAnalysis as Record<string, unknown>).found) &&
+    Array.isArray((o.keywordAnalysis as Record<string, unknown>).missing) &&
+    typeof (o.keywordAnalysis as Record<string, unknown>).density ===
+      "number" &&
+    Array.isArray(o.recommendations) &&
+    typeof o.atsScore === "number" &&
+    typeof o.competitiveness === "string" &&
+    // Validasi untuk 'experienceAnalysis'
+    typeof o.experienceAnalysis === "object" &&
+    o.experienceAnalysis !== null &&
+    typeof (o.experienceAnalysis as Record<string, unknown>).relevantYears ===
+      "number" &&
+    typeof (o.experienceAnalysis as Record<string, unknown>).industryMatch ===
+      "boolean" &&
+    typeof (o.experienceAnalysis as Record<string, unknown>)
+      .careerProgression === "string"
   );
 }
 
@@ -213,10 +234,9 @@ function getModelDisplayName(modelId: string): string {
 
 export async function analyzeResumeWithAI(
   prompt: string,
-  selectedModel?: string, // Ubah ke optional parameter
+  selectedModel?: string,
 ): Promise<AnalysisResult> {
   const maxRetries = 3;
-  let lastError: Error | null = null;
 
   // Extract language from prompt for fallback
   const language = prompt.includes("Bahasa Indonesia")
@@ -240,7 +260,7 @@ export async function analyzeResumeWithAI(
       );
 
       const completion = await openai.chat.completions.create({
-        model: modelToUse, // Pastikan menggunakan variable yang benar
+        model: modelToUse,
         messages: [
           {
             role: "system",
@@ -297,7 +317,6 @@ export async function analyzeResumeWithAI(
       }
     } catch (error) {
       console.error(`❌ AI Analysis attempt ${attempt} failed:`, error);
-      lastError = error instanceof Error ? error : new Error(String(error));
 
       if (attempt === maxRetries) {
         console.log("🔄 All attempts failed, using fallback result");
