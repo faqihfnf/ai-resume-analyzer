@@ -366,7 +366,7 @@ export function ResumeForm({ onSubmit, loading }: ResumeFormProps) {
                   <div className="flex items-center gap-2">
                     <Loader2 className="h-4 w-4 animate-spin" />
                     <span className="mt-0.5 animate-pulse">
-                      AI Analyzing Resume ...
+                      AI Analyzing...
                     </span>
                   </div>
                 </>
@@ -396,8 +396,7 @@ export function ResumeForm({ onSubmit, loading }: ResumeFormProps) {
           <Alert className="border-blue-200 bg-blue-50 dark:bg-blue-900/20">
             <AlertCircle className="h-4 w-4 text-blue-600" />
             <AlertDescription className="text-blue-800 dark:text-blue-200">
-              Please wait while we analyze your resume. This may take a few
-              moments...
+              AI is analyzing your resume, please wait a moment...
             </AlertDescription>
           </Alert>
         )}

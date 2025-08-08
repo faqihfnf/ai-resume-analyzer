@@ -112,7 +112,7 @@ export default function HomePage() {
                 variant="outline"
                 className="mb-6 cursor-pointer border-2 hover:bg-slate-50 dark:hover:bg-slate-800"
               >
-                <ArrowLeft className="mr-2 h-4 w-4" />
+                <ArrowLeft className="h-4 w-4" />
                 Analyze Another Resume
               </Button>
             </div>

@@ -86,12 +86,14 @@ export function AnalysisResult({ feedback }: AnalysisResultProps) {
     <div className="animate-in slide-in-from-bottom-4 mx-auto w-full max-w-6xl space-y-6 duration-500">
       {/* Header dengan Score dan Actions */}
       <Card className="border-0 bg-gradient-to-br from-white to-gray-50 shadow-2xl dark:from-gray-900 dark:to-gray-800">
-        <CardHeader className="pb-6">
-          <div className="flex flex-col items-center justify-between gap-6 lg:flex-row">
+        <CardHeader className="p-5">
+          <div className="flex flex-col items-center gap-6 text-center md:flex-row md:items-start md:text-left">
             {/* Score Circle */}
             <div className="flex items-center gap-8">
               <div
-                className={`relative h-40 w-40 rounded-full ${getScoreBgColor(feedback.score)} flex items-center justify-center shadow-inner`}
+                className={`relative h-32 w-32 flex-shrink-0 rounded-full ${getScoreBgColor(
+                  feedback.score,
+                )} flex items-center justify-center shadow-inner md:h-40 md:w-40`}
               >
                 <div className="text-center">
                   <div
@@ -100,12 +102,9 @@ export function AnalysisResult({ feedback }: AnalysisResultProps) {
                     {feedback.score} <span className="text-indigo-900">/ </span>
                     100
                   </div>
-                  {/* <div className="text-sm font-medium text-gray-600 dark:text-gray-400">
-                    / 100
-                  </div> */}
                 </div>
                 <svg
-                  className="absolute inset-0 h-40 w-40 -rotate-90 transform"
+                  className="absolute inset-0 h-32 w-32 -rotate-90 transform md:h-40 md:w-40"
                   viewBox="0 0 100 100"
                 >
                   <circle
@@ -133,15 +132,20 @@ export function AnalysisResult({ feedback }: AnalysisResultProps) {
 
               {/* Score Details */}
               <div className="space-y-2">
-                <h3 className="bg-gradient-to-tl from-indigo-700 via-violet-600 to-purple-500 bg-clip-text fill-transparent text-2xl font-bold text-transparent">
-                  Your Resume Analysis
-                </h3>
-                <p className="text-md text-gray-700 dark:text-gray-300">
-                  This score reflects how well your resume matches the job
-                  requirements based on AI analysis.
-                </p>
-                <Badge variant="secondary" className="px-4 py-2 text-sm">
-                  <Award className="mr-2 h-4 w-4" />
+                <div className="">
+                  <h3 className="mb-2 bg-gradient-to-tl from-indigo-700 via-violet-600 to-purple-500 bg-clip-text fill-transparent text-2xl font-bold text-transparent">
+                    Your Resume Analysis
+                  </h3>
+                  <p className="sm:text-md text-sm text-gray-700 dark:text-gray-300">
+                    This score reflects how well your resume matches the job
+                    requirements based on AI analysis.
+                  </p>
+                </div>
+                <Badge
+                  variant="secondary"
+                  className="flex items-center gap-2 p-2 text-sm"
+                >
+                  <Award className="h-6 w-6" />
                   {getScoreText(feedback.score)}
                 </Badge>
                 {feedback.atsScore && (
@@ -182,19 +186,19 @@ export function AnalysisResult({ feedback }: AnalysisResultProps) {
         <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="overview" className="cursor-pointer gap-2">
             <FileText className="h-4 w-4" />
-            Overview
+            <span className="hidden md:block">Overview</span>
           </TabsTrigger>
           <TabsTrigger value="skills" className="cursor-pointer gap-2">
             <Brain className="h-4 w-4" />
-            Skills
+            <span className="hidden md:block">Skills</span>
           </TabsTrigger>
           <TabsTrigger value="keywords" className="cursor-pointer gap-2">
             <Target className="h-4 w-4" />
-            Keywords
+            <span className="hidden md:block">Keywords</span>
           </TabsTrigger>
           <TabsTrigger value="recommendations" className="cursor-pointer gap-2">
             <Lightbulb className="h-4 w-4" />
-            Tips
+            <span className="hidden md:block">Tips</span>
           </TabsTrigger>
         </TabsList>
 
