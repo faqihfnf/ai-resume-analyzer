@@ -120,7 +120,8 @@ export function ResumeForm({ onSubmit, loading }: ResumeFormProps) {
           Upload and Analyze Resume
         </CardTitle>
         <CardDescription className="text-md text-slate-600 dark:text-slate-400">
-          Upload your resume and job details to get AI-powered feedback
+          Copy and paste job vacancy details, upload your resume, and get
+          AI-powered feedback on your resume.
         </CardDescription>
       </CardHeader>
 
@@ -396,7 +397,7 @@ export function ResumeForm({ onSubmit, loading }: ResumeFormProps) {
           <Alert className="border-blue-200 bg-blue-50 dark:bg-blue-900/20">
             <AlertCircle className="h-4 w-4 text-blue-600" />
             <AlertDescription className="text-blue-800 dark:text-blue-200">
-              AI is analyzing your resume, please wait a moment...
+              AI is analyzing your resume, Please Wait...
             </AlertDescription>
           </Alert>
         )}

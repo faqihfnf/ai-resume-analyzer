@@ -51,34 +51,39 @@ export function AnalysisResult({ feedback }: AnalysisResultProps) {
   const [activeTab, setActiveTab] = useState("overview");
 
   const getScoreColor = (score: number) => {
-    if (score >= 80) return "text-green-600 dark:text-green-400";
-    if (score >= 60) return "text-yellow-600 dark:text-yellow-400";
-    return "text-red-600 dark:text-red-400";
+    if (score >= 80) return "text-green-600 bg-green-100";
+    if (score >= 60) return "text-yellow-600 bg-yellow-100";
+    return "text-red-600 bg-red-100";
   };
 
   const getScoreBgColor = (score: number) => {
-    if (score >= 80) return "bg-green-100 dark:bg-green-900";
-    if (score >= 60) return "bg-yellow-100 dark:bg-yellow-900";
-    return "bg-red-100 dark:bg-red-900";
+    if (score >= 80) return "text-green-600 bg-green-100";
+    if (score >= 60) return "text-yellow-600 bg-yellow-100";
+    return "text-red-600 bg-red-100";
   };
 
   const getScoreText = (score: number) => {
     if (score >= 80) return "Excellent Match";
-    if (score >= 70) return "Good Match";
     if (score >= 60) return "Fair Match";
     return "Needs Improvement";
+  };
+
+  const getScoreTextColor = (score: number) => {
+    if (score >= 80) return "text-green-600 bg-green-100";
+    if (score >= 60) return "text-yellow-600 bg-yellow-100";
+    return "text-red-600 bg-red-100";
   };
 
   const getCompetitivenessColor = (level: string) => {
     switch (level) {
       case "high":
-        return "text-green-600 bg-green-100 dark:bg-green-900";
+        return "text-green-600 bg-green-100";
       case "medium":
-        return "text-yellow-600 bg-yellow-100 dark:bg-yellow-900";
+        return "text-yellow-600 bg-yellow-100";
       case "low":
-        return "text-red-600 bg-red-100 dark:bg-red-900";
+        return "text-red-600 bg-red-100";
       default:
-        return "text-gray-600 bg-gray-100 dark:bg-gray-900";
+        return "text-gray-600 bg-gray-100";
     }
   };
 
@@ -86,64 +91,64 @@ export function AnalysisResult({ feedback }: AnalysisResultProps) {
     <div className="animate-in slide-in-from-bottom-4 mx-auto w-full max-w-6xl space-y-6 duration-500">
       {/* Header dengan Score dan Actions */}
       <Card className="border-0 bg-gradient-to-br from-white to-gray-50 shadow-2xl dark:from-gray-900 dark:to-gray-800">
-        <CardHeader className="p-5">
+        <CardHeader className="p-2 sm:p-5">
           <div className="flex flex-col items-center gap-6 text-center md:flex-row md:items-start md:text-left">
             {/* Score Circle */}
-            <div className="flex items-center gap-8">
-              <div
-                className={`relative h-32 w-32 flex-shrink-0 rounded-full ${getScoreBgColor(
-                  feedback.score,
-                )} flex items-center justify-center shadow-inner md:h-40 md:w-40`}
-              >
-                <div className="text-center">
-                  <div
-                    className={`text-2xl font-bold ${getScoreColor(feedback.score)}`}
-                  >
-                    {feedback.score} <span className="text-indigo-900">/ </span>
-                    100
-                  </div>
-                </div>
-                <svg
-                  className="absolute inset-0 h-32 w-32 -rotate-90 transform md:h-40 md:w-40"
-                  viewBox="0 0 100 100"
+            <div
+              className={`relative h-32 w-32 flex-shrink-0 rounded-full ${getScoreBgColor(
+                feedback.score,
+              )} flex items-center justify-center shadow-inner md:h-40 md:w-40`}
+            >
+              <div className="text-center">
+                <div
+                  className={`text-2xl font-bold ${getScoreColor(feedback.score)}`}
                 >
-                  <circle
-                    cx="50"
-                    cy="50"
-                    r="45"
-                    stroke="currentColor"
-                    strokeWidth="8"
-                    fill="none"
-                    className="text-gray-200 dark:text-gray-700"
-                  />
-                  <circle
-                    cx="50"
-                    cy="50"
-                    r="45"
-                    stroke="currentColor"
-                    strokeWidth="8"
-                    fill="none"
-                    strokeDasharray={`${feedback.score * 2.83} 283`}
-                    className={getScoreColor(feedback.score)}
-                    strokeLinecap="round"
-                  />
-                </svg>
-              </div>
-
-              {/* Score Details */}
-              <div className="space-y-2">
-                <div className="">
-                  <h3 className="mb-2 bg-gradient-to-tl from-indigo-700 via-violet-600 to-purple-500 bg-clip-text fill-transparent text-2xl font-bold text-transparent">
-                    Your Resume Analysis
-                  </h3>
-                  <p className="sm:text-md text-sm text-gray-700 dark:text-gray-300">
-                    This score reflects how well your resume matches the job
-                    requirements based on AI analysis.
-                  </p>
+                  {feedback.score} <span className="text-indigo-900">/ </span>
+                  100
                 </div>
+              </div>
+              {/* Animated Circle */}
+              <svg
+                className="absolute inset-0 h-32 w-32 -rotate-90 transform md:h-40 md:w-40"
+                viewBox="0 0 100 100"
+              >
+                <circle
+                  cx="50"
+                  cy="50"
+                  r="45"
+                  stroke="currentColor"
+                  strokeWidth="10"
+                  fill="none"
+                  className="text-gray-200 dark:text-gray-700"
+                />
+                <circle
+                  cx="50"
+                  cy="50"
+                  r="45"
+                  stroke="currentColor"
+                  strokeWidth="10"
+                  fill="none"
+                  strokeDasharray={`${feedback.score * 2.83} 283`}
+                  className={getScoreColor(feedback.score)}
+                  strokeLinecap="round"
+                />
+              </svg>
+            </div>
+
+            {/* Score Details */}
+            <div className="space-y-2">
+              <div className="">
+                <h3 className="mb-2 bg-gradient-to-tl from-indigo-700 via-violet-600 to-purple-500 bg-clip-text fill-transparent text-2xl font-bold text-transparent">
+                  Your Resume Analysis
+                </h3>
+                <p className="sm:text-md text-sm text-gray-700 dark:text-gray-300">
+                  This score reflects how well your resume matches the job
+                  requirements based on AI analysis.
+                </p>
+              </div>
+              <div className="flex flex-col items-center justify-center gap-2 sm:items-start sm:justify-start">
                 <Badge
-                  variant="secondary"
-                  className="flex items-center gap-2 p-2 text-sm"
+                  className={`flex items-center gap-2 p-2 ${getScoreTextColor(feedback.score)}`}
                 >
                   <Award className="h-6 w-6" />
                   {getScoreText(feedback.score)}
@@ -151,10 +156,7 @@ export function AnalysisResult({ feedback }: AnalysisResultProps) {
                 {feedback.atsScore && (
                   <div className="flex items-center gap-2">
                     <span className="text-sm text-gray-600">ATS Score:</span>
-                    <Badge
-                      variant="outline"
-                      className={getScoreColor(feedback.atsScore)}
-                    >
+                    <Badge className={getScoreColor(feedback.atsScore)}>
                       {feedback.atsScore}%
                     </Badge>
                   </div>
