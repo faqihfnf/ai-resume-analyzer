@@ -2,11 +2,12 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { ResumeAnalysisFormData } from "@/lib/validations";
 import { ResumeForm } from "@/components/sections/ResumeForm";
 import ColourfulText from "@/components/ui/colourful-text";
 import { AnalysisResult } from "@/components/sections/AnalysisResult";
+import Link from "next/link";
 
 interface FeedbackData {
   score: number;
@@ -67,12 +68,12 @@ export default function HomePage() {
       {/* Header */}
       <div className="container mx-auto px-4 py-8">
         <div className="mt-20 mb-8 text-center">
-          <p className="mx-auto text-lg text-slate-600 md:text-2xl dark:text-slate-400">
+          <p className="text-md mx-auto text-slate-600 md:text-2xl dark:text-slate-400">
             AI-Powered Analysis to Get <ColourfulText text="Instant Feedback" />{" "}
             {""}
             on Your Resume
             <br />
-            Improve your chances of landing your{" "}
+            Improve your chances of landing your
             <ColourfulText text="Dream Job" />
           </p>
           {/* Get instant feedback on your resume with AI-powered analysis. Improve your chances of landing your dream job */}
@@ -106,14 +107,27 @@ export default function HomePage() {
         ) : (
           <div className="space-y-0">
             {/* Back Button */}
-            <div className="mx-auto max-w-6xl">
+            <div className="mx-auto flex max-w-6xl justify-between">
               <Button
                 onClick={handleStartOver}
                 variant="outline"
-                className="mb-6 cursor-pointer border-2 hover:bg-slate-50 dark:hover:bg-slate-800"
+                className="mb-6 cursor-pointer border-2 text-xs hover:bg-slate-50 sm:text-sm dark:hover:bg-slate-800"
               >
                 <ArrowLeft className="h-4 w-4" />
-                Analyze Another Resume
+                Back to Form
+              </Button>
+              <Button
+                variant="outline"
+                className="mb-6 cursor-pointer border-2 text-xs hover:bg-slate-50 sm:text-sm dark:hover:bg-slate-800"
+              >
+                <Link
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://tally.so/r/3xWL4o"
+                >
+                  Give Feedback
+                </Link>
+                <ArrowRight className="h-4 w-4" />
               </Button>
             </div>
 
