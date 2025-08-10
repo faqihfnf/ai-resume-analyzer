@@ -92,7 +92,7 @@ export async function POST(req: NextRequest) {
         ? resumeText.substring(0, maxResumeLength) + "..."
         : resumeText;
 
-    // Buat prompt untuk AI yang lebih sederhana dan fokus
+    // Promt ke AI
     const prompt = `
 Analyze this resume against the job requirements. Be STRICT and REALISTIC in your scoring. Avoid round numbers like 60, 65, 70, 75, 80, 85. Use specific scores like 43, 67, 72, 89, etc.
 
@@ -158,7 +158,7 @@ Respond with ONLY valid JSON in ${selectedLanguage.promptLanguage}. Use REALISTI
   } catch (error) {
     console.error("❌ Error while processing resume:", error);
 
-    // Return error response dengan detail yang lebih spesifik
+    // Return error response
     if (error instanceof Error) {
       // Check for specific error types
       if (error.message.includes("PDF")) {

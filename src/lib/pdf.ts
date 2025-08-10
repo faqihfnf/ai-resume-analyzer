@@ -1,5 +1,3 @@
-// file: src/lib/pdf.ts
-
 import * as pdfjsLib from "pdfjs-dist";
 import "pdfjs-dist/build/pdf.worker.entry";
 
@@ -14,10 +12,6 @@ export async function extractTextFromPDF(buffer: Buffer): Promise<string> {
       const page = await pdf.getPage(pageNum);
       const textContent = await page.getTextContent();
 
-      // ✅ INI PERBAIKANNYA:
-      // Kita cek dulu apakah properti 'str' ada di dalam 'item'.
-      // Jika ada (artinya itu TextItem), kita ambil nilainya.
-      // Jika tidak ada (artinya itu TextMarkedContent), kita kembalikan string kosong.
       const pageText = textContent.items
         .map((item) => ("str" in item ? item.str : ""))
         .join(" ");

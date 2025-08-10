@@ -5,16 +5,16 @@ export default function Footer() {
   return (
     <div className="flex flex-col items-center justify-between bg-slate-900 p-4 md:flex-row">
       <div className="flex items-center gap-4">
-        <p className="text-md text-center text-slate-200 sm:text-left">
+        <p className="text-md text-center text-slate-100 sm:text-left">
           Created with ❤️{" "}
-          <span className="text-md bg-gradient-to-br from-cyan-500 to-indigo-500 bg-clip-text font-extrabold text-transparent">
+          <span className="text-md via-yelow-300 bg-gradient-to-tl from-lime-400 via-green-400 to-emerald-400 bg-clip-text font-extrabold text-transparent">
             Faqih Nur Fahmi
           </span>
         </p>
       </div>
 
       <div className="mb-4 text-center md:mb-0 md:text-left">
-        <p className="text-sm text-slate-200">
+        <p className="text-sm text-slate-100">
           {new Date().getFullYear()} © All Rights Reserved.
         </p>
       </div>

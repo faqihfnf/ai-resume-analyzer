@@ -1,4 +1,3 @@
-// src/lib/validations.ts
 import { z } from "zod";
 
 export const resumeAnalysisSchema = z.object({
