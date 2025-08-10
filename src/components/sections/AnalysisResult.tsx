@@ -187,6 +187,7 @@ export function AnalysisResult({ feedback }: AnalysisResultProps) {
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger
+            title="Overview"
             value="overview"
             className="cursor-pointer gap-2 text-slate-500 data-[state=active]:font-semibold data-[state=active]:text-indigo-500"
           >
@@ -194,6 +195,7 @@ export function AnalysisResult({ feedback }: AnalysisResultProps) {
             <span className="hidden md:block">Overview</span>
           </TabsTrigger>
           <TabsTrigger
+            title="Skills"
             value="skills"
             className="cursor-pointer gap-2 text-slate-500 data-[state=active]:font-semibold data-[state=active]:text-indigo-500"
           >
@@ -201,6 +203,7 @@ export function AnalysisResult({ feedback }: AnalysisResultProps) {
             <span className="hidden md:block">Skills</span>
           </TabsTrigger>
           <TabsTrigger
+            title="Keywords"
             value="keywords"
             className="cursor-pointer gap-2 text-slate-500 data-[state=active]:font-semibold data-[state=active]:text-indigo-500"
           >
@@ -208,6 +211,7 @@ export function AnalysisResult({ feedback }: AnalysisResultProps) {
             <span className="hidden md:block">Keywords</span>
           </TabsTrigger>
           <TabsTrigger
+            title="Tips"
             value="recommendations"
             className="cursor-pointer gap-2 text-slate-500 data-[state=active]:font-semibold data-[state=active]:text-indigo-500"
           >
