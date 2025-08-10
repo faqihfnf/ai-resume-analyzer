@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
 import { Inter, Poppins } from "next/font/google";
 import "./globals.css";
@@ -25,6 +26,7 @@ export default function RootLayout({
       <body className={`${inter.className} ${poppins.className} antialiased`}>
         <Navbar />
         {children}
+        <Analytics />
         <Footer />
       </body>
     </html>
