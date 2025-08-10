@@ -316,7 +316,7 @@ export async function analyzeResumeWithAI(
         throw new Error(`Invalid JSON format on attempt ${attempt}`);
       }
     } catch (error) {
-      // console.error(`❌ AI Analysis attempt ${attempt} failed:`, error);
+      console.error(`❌ AI Analysis attempt ${attempt} failed:`, error);
 
       if (attempt === maxRetries) {
         // console.log("🔄 All attempts failed, using fallback result");
