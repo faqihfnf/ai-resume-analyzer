@@ -26,7 +26,6 @@ import {
   BookCheck,
   Brain,
   Loader2,
-  Bot,
 } from "lucide-react";
 import {
   resumeAnalysisSchema,
@@ -277,7 +276,7 @@ export function ResumeForm({ onSubmit, loading }: ResumeFormProps) {
           {/* AI Model Selection */}
           <div className="space-y-2">
             <div className="flex items-center gap-1">
-              <Bot className="h-4 w-4 text-orange-500" />
+              <Brain className="h-4 w-4 text-orange-500" />
               <Label className="mt-1 flex items-center text-sm font-semibold">
                 AI Model
               </Label>

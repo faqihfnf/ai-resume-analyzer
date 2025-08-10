@@ -249,15 +249,15 @@ export async function analyzeResumeWithAI(
   // Get default settings (same for all models)
   const config = DEFAULT_SETTINGS;
 
-  console.log(`🤖 Using AI Model: ${getModelDisplayName(modelToUse)}`);
-  console.log(`📝 Selected Model Parameter: ${selectedModel}`); // Debug log
-  console.log(`🎯 Model To Use: ${modelToUse}`); // Debug log
+  // console.log(`🤖 Using AI Model: ${getModelDisplayName(modelToUse)}`);
+  // console.log(`📝 Selected Model Parameter: ${selectedModel}`); // Debug log
+  // console.log(`🎯 Model To Use: ${modelToUse}`); // Debug log
 
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
-      console.log(
-        `🔄 AI Analysis attempt ${attempt}/${maxRetries} with ${getModelDisplayName(modelToUse)}`,
-      );
+      // console.log(
+      //   `🔄 AI Analysis attempt ${attempt}/${maxRetries} with ${getModelDisplayName(modelToUse)}`,
+      // );
 
       const completion = await openai.chat.completions.create({
         model: modelToUse,
@@ -302,24 +302,24 @@ export async function analyzeResumeWithAI(
       });
 
       const responseText = completion.choices[0].message.content ?? "";
-      console.log(
-        `📋 Raw AI Response (attempt ${attempt}):`,
-        responseText.substring(0, 200) + "...",
-      );
+      // console.log(
+      //   `📋 Raw AI Response (attempt ${attempt}):`,
+      //   responseText.substring(0, 200) + "...",
+      // );
 
       const result = extractJson(responseText);
 
       if (result) {
-        console.log("✅ Successfully parsed AI response");
+        // console.log("✅ Successfully parsed AI response");
         return result;
       } else {
         throw new Error(`Invalid JSON format on attempt ${attempt}`);
       }
     } catch (error) {
-      console.error(`❌ AI Analysis attempt ${attempt} failed:`, error);
+      // console.error(`❌ AI Analysis attempt ${attempt} failed:`, error);
 
       if (attempt === maxRetries) {
-        console.log("🔄 All attempts failed, using fallback result");
+        // console.log("🔄 All attempts failed, using fallback result");
         return createFallbackResult(language, modelToUse);
       }
 

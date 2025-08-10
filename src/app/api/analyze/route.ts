@@ -53,7 +53,7 @@ export async function POST(req: NextRequest) {
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
 
-    console.log("📄 Extracting text from PDF...");
+    // console.log("📄 Extracting text from PDF...");
     const resumeText = await extractTextFromPDF(buffer);
 
     if (!resumeText || resumeText.trim().length === 0) {
@@ -66,8 +66,8 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    console.log("🤖 Analyzing resume with AI...");
-    console.log(`📊 Resume text length: ${resumeText.length} characters`);
+    // console.log("🤖 Analyzing resume with AI...");
+    // console.log(`📊 Resume text length: ${resumeText.length} characters`);
 
     // Tentukan bahasa untuk prompt dan feedback
     const languageInstructions = {
@@ -139,7 +139,7 @@ Respond with ONLY valid JSON in ${selectedLanguage.promptLanguage}. Use REALISTI
 }`;
 
     const analysis = await analyzeResumeWithAI(prompt, model);
-    console.log("✅ Analysis completed successfully");
+    // console.log("✅ Analysis completed successfully");
 
     // Validasi final result
     if (!analysis || typeof analysis.score !== "number") {

@@ -15,8 +15,8 @@ import {
   Lightbulb,
   CheckCircle,
   XCircle,
-  Brain,
   ShieldHalf,
+  BicepsFlexed,
 } from "lucide-react";
 
 interface AnalysisResultProps {
@@ -186,19 +186,31 @@ export function AnalysisResult({ feedback }: AnalysisResultProps) {
       {/* Tabs for Different Views */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="overview" className="cursor-pointer gap-2">
+          <TabsTrigger
+            value="overview"
+            className="cursor-pointer gap-2 text-slate-500 data-[state=active]:font-semibold data-[state=active]:text-indigo-500"
+          >
             <FileText className="h-4 w-4" />
             <span className="hidden md:block">Overview</span>
           </TabsTrigger>
-          <TabsTrigger value="skills" className="cursor-pointer gap-2">
-            <Brain className="h-4 w-4" />
+          <TabsTrigger
+            value="skills"
+            className="cursor-pointer gap-2 text-slate-500 data-[state=active]:font-semibold data-[state=active]:text-indigo-500"
+          >
+            <BicepsFlexed className="h-4 w-4" />
             <span className="hidden md:block">Skills</span>
           </TabsTrigger>
-          <TabsTrigger value="keywords" className="cursor-pointer gap-2">
+          <TabsTrigger
+            value="keywords"
+            className="cursor-pointer gap-2 text-slate-500 data-[state=active]:font-semibold data-[state=active]:text-indigo-500"
+          >
             <Target className="h-4 w-4" />
             <span className="hidden md:block">Keywords</span>
           </TabsTrigger>
-          <TabsTrigger value="recommendations" className="cursor-pointer gap-2">
+          <TabsTrigger
+            value="recommendations"
+            className="cursor-pointer gap-2 text-slate-500 data-[state=active]:font-semibold data-[state=active]:text-indigo-500"
+          >
             <Lightbulb className="h-4 w-4" />
             <span className="hidden md:block">Tips</span>
           </TabsTrigger>
