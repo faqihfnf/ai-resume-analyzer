@@ -115,12 +115,12 @@ export function ResumeForm({ onSubmit, loading }: ResumeFormProps) {
           AI-Powered Analysis
         </div>
 
-        <CardTitle className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-4xl font-bold text-transparent">
+        <CardTitle className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-xl font-bold text-transparent sm:text-4xl">
           Upload and Analyze Resume
         </CardTitle>
-        <CardDescription className="text-md text-slate-600 dark:text-slate-400">
-          Copy and paste job vacancy details, upload your resume, and get
-          AI-powered feedback on your resume.
+        <CardDescription className="text-xs text-slate-600 sm:text-lg dark:text-slate-400">
+          Copy and paste job vacancy details, upload your resume and get
+          AI-powered feedback.
         </CardDescription>
       </CardHeader>
 
@@ -141,7 +141,7 @@ export function ResumeForm({ onSubmit, loading }: ResumeFormProps) {
               id="jobTitle"
               placeholder="e.g. Human Resources"
               {...register("jobTitle")}
-              className="h-12 border-2 transition-colors focus:border-blue-500"
+              className="sm:text-md h-12 border-2 text-sm transition-colors focus:border-blue-500"
               disabled={loading}
             />
             {errors.jobTitle && (
@@ -167,7 +167,7 @@ export function ResumeForm({ onSubmit, loading }: ResumeFormProps) {
               id="jobLevel"
               placeholder="e.g. Supervisor"
               {...register("jobLevel")}
-              className="h-12 border-2 transition-colors focus:border-green-500"
+              className="sm:text-md h-12 border-2 text-sm transition-colors focus:border-green-500"
               disabled={loading}
             />
             {errors.jobLevel && (
@@ -193,7 +193,7 @@ export function ResumeForm({ onSubmit, loading }: ResumeFormProps) {
               id="jobRequirements"
               placeholder="Paste the job requirements here..."
               {...register("jobRequirements")}
-              className="min-h-32 resize-none border-2 transition-colors focus:border-pink-500"
+              className="sm:text-md min-h-32 resize-none border-2 text-sm transition-colors focus:border-pink-500"
               disabled={loading}
             />
             {errors.jobRequirements && (
@@ -217,9 +217,9 @@ export function ResumeForm({ onSubmit, loading }: ResumeFormProps) {
             </div>
             <Textarea
               id="jobDescription"
-              placeholder="Paste the complete job description here..."
+              placeholder="Paste the job description here..."
               {...register("jobDescription")}
-              className="min-h-32 resize-none border-2 transition-colors focus:border-purple-500"
+              className="sm:text-md min-h-32 resize-none border-2 text-sm transition-colors focus:border-purple-500"
               disabled={loading}
             />
             {errors.jobDescription && (
@@ -334,7 +334,7 @@ export function ResumeForm({ onSubmit, loading }: ResumeFormProps) {
                 type="file"
                 accept="application/pdf"
                 onChange={handleFileChange}
-                className="h-10 cursor-pointer border-2 border-dashed transition-colors file:rounded-md file:border-0 file:bg-lime-50 file:px-4 file:text-sm file:font-semibold file:text-lime-700 hover:file:bg-lime-100 focus:border-lime-500"
+                className="h-10 cursor-pointer border-2 border-dashed text-sm transition-colors file:rounded-md file:border-0 file:bg-lime-50 file:px-4 file:text-sm file:font-semibold file:text-lime-700 hover:file:bg-lime-100 focus:border-lime-500"
                 disabled={loading}
               />
               {file && (

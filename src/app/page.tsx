@@ -68,13 +68,13 @@ export default function HomePage() {
       {/* Header */}
       <div className="container mx-auto px-4 py-8">
         <div className="mt-20 mb-8 text-center">
-          <p className="text-md mx-auto text-slate-600 md:text-2xl dark:text-slate-400">
+          <p className="mx-auto text-sm text-slate-600 md:text-2xl dark:text-slate-400">
             AI-Powered Analysis to Get <ColourfulText text="Instant Feedback" />{" "}
             {""}
             on Your Resume
             <br />
             Improve your chances of landing your
-            <ColourfulText text="Dream Job" />
+            <ColourfulText text=" Dream Job" />
           </p>
           {/* Get instant feedback on your resume with AI-powered analysis. Improve your chances of landing your dream job */}
         </div>
