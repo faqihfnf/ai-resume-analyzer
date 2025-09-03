@@ -125,7 +125,7 @@ export function ResumeForm({ onSubmit, loading }: ResumeFormProps) {
           <br />
           Don &apos;t have a resume?{" "}
           <Link
-            href="https:resumefly.my.id"
+            href="https://www.resumefly.my.id"
             target="_blank"
             rel="noopener noreferrer"
             className="text-blue-600 hover:underline"
