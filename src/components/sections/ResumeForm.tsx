@@ -41,6 +41,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { aiModels } from "@/constant/aiModel";
+import Link from "next/link";
 
 interface ResumeFormProps {
   onSubmit: (data: ResumeAnalysisFormData, file: File) => void;
@@ -118,9 +119,19 @@ export function ResumeForm({ onSubmit, loading }: ResumeFormProps) {
         <CardTitle className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-xl font-bold text-transparent sm:text-4xl">
           Upload and Analyze Resume
         </CardTitle>
-        <CardDescription className="text-xs text-slate-600 sm:text-lg dark:text-slate-400">
+        <CardDescription className="text-md text-slate-600 dark:text-slate-400">
           Copy and paste job vacancy details, upload your resume and get
           AI-powered feedback.
+          <br />
+          Don &apos;t have a resume?{" "}
+          <Link
+            href="https:resumefly.my.id"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 hover:underline"
+          >
+            Create here!
+          </Link>
         </CardDescription>
       </CardHeader>
 
